@@ -70,7 +70,6 @@ let rec compile_statement (statement : s) : t list =
   (* stmt を compile_statement でコンパイルした結果 *)
   (* Goto test *)
   (* LabelOut (test, out) *)
-  (* LabelTest test, (compile_)  *)
   | Print (arith) ->
     (compile_arith arith) @ [PRINT]
   | _ -> failwith "Unsupported statement"
