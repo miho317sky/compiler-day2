@@ -57,6 +57,8 @@ let rec compile_statement (statement : s) : t list =
   | Assign (id, arith) ->
     (compile_arith arith) @ [LPush (id)]
   | Skip -> []
+  (* | Block s ->  s を compile_statement でコンパイルした結果を返す *)
+  (* | Seq (s1, s2) ->  s1 と s2 をコンパイルした結果を連結する *)
   (* | While (pred, stmt) -> *)
   (* 以下、実装の手順を示す *)
   (* gen_label () を実行して test ラベルを生成 *)
