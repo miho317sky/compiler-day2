@@ -1,2 +1,2 @@
 @echo off
-del *.cmi *.cmo calc parser.ml parser.mli lexer.ml
+del *.cmi *.cmo while_lang parser.ml parser.mli lexer.ml
