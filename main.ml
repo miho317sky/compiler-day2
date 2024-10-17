@@ -1,3 +1,5 @@
+open Syntax
+
 let test_syntax s =
   print_string "[TEST syntax]\n";
   print_string "input: ";
@@ -18,12 +20,22 @@ let test_stack_ops s =
   |> Virtual_stack.compile
   |> Virtual_stack.print_code stdout
 
+let test_syntax_predicate _ =
+  print_string "[TEST predicate]\n";
+  let p = LT(Var("i"), Num(2)) in (* i < 2 *)
+  print_string (Syntax.string_of_predicate p);
+  print_newline ();
+  let p = LT (Var ("i"), Add (Var ("i"), Num (2))) in
+  print_string (Syntax.string_of_predicate p);
+  print_newline ();
+  ()
+
 let () =
     test_syntax "i := i + 1;";
     test_syntax "i := i - 1;";
     (* test_syntax "i := i * 1;"; *)
-    (* test_syntax "i := i / 1;"; *)
+    test_syntax_predicate ();
     test_stack_ops "i := i + 1;";
-    test_stack_ops "i := i - 1;";
+    (* test_stack_ops "i := i - 1;"; *)
     (* test_stack_ops "i := i * 1;"; *)
     (* test_stack_ops "i := i / 1;"; *)
