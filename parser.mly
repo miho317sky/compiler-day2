@@ -50,12 +50,13 @@ statement:
 | SKIP { Skip }
 | VARIANT ASSIGN arith { Assign ($1, $3) }
 | PRINT arith { Print ($2) }
-/* WHILE ... { While ($2) } */
+/* BEGIN ... END { Block (...) } */
+/* WHILE ... { While (...) } */
 
 /* 連続する statement (文) をパースするための記号 */
 statements:
 | statement SEMICOLON { $1 }
-/* | statement SEMICOLON ... { ... } */
+/* | statement SEMICOLON statements { Seq(...) } */
 
 /* 条件式をパースするための記号 */
 predicate:
