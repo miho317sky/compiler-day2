@@ -32,21 +32,21 @@ type s =
 (* デバッグ用の補助関数。 Syntax を文字列として表示する *)
 let rec string_of_arith a =
   match a with
-  | Var id -> sprintf "Var(%s)" id
-  | Num n -> sprintf "Num(%d)" n
-  | Add (a1, a2) -> sprintf "Add (%s, %s)" (string_of_arith a1) (string_of_arith a2)
+  | Var id ->  "Var(" ^ id ^ ")"
+  | Num n -> "Num(" ^ (string_of_int n) ^ ")"
+  | Add (a1, a2) -> "Add(" ^ (string_of_arith a1) ^ ", " ^ (string_of_arith a2) ^ ")"
 
 let rec string_of_predicate p =
   match p with
   | True -> "true"
   | False -> "false"
-  | Not p -> sprintf "not %s" (string_of_predicate p)
-  | And (p1, p2) -> sprintf "%s and %s" (string_of_predicate p1) (string_of_predicate p2)
-  | Or (p1, p2) -> sprintf "%s or %s" (string_of_predicate p1) (string_of_predicate p2)
-  | LT (a1, a2) -> sprintf "%s < %s" (string_of_arith a1) (string_of_arith a2)
+  | Not p -> "not " ^ (string_of_predicate p)
+  | And (p1, p2) -> (string_of_predicate p1) ^ " and " ^ (string_of_predicate p2)
+  | Or (p1, p2) -> (string_of_predicate p1) ^ " or " ^ (string_of_predicate p2)
+  | LT (a1, a2) -> (string_of_arith a1) ^ " < " ^ (string_of_arith a2)
 
 let rec string_of_statement s =
   match s with
-  | Assign (id, a) -> sprintf "Assign (%s, %s)\n" id (string_of_arith a)
+  | Assign (id, a) -> "Assign(" ^ id ^ ", " ^ (string_of_arith a) ^ ")\n"
   | Skip -> sprintf "Skip;\n"
-  | Print (a) -> sprintf "Print (%s);\n" (string_of_arith a)
+  | Print (a) -> "Print(" ^ (string_of_arith a) ^ ")\n"
