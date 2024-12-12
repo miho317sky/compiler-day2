@@ -75,7 +75,7 @@ let rec compile_statement (statement : s) : t list =
   | _ -> failwith "Unsupported statement"
 
 
-let compile statement =
+let compile_stack statement =
   reset ();
   compile_statement statement
 
