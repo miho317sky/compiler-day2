@@ -21,9 +21,11 @@
 
 /* エントリーポイント (開始記号) の定義 */
 %start start
+%start predicate
 
 /* 非終端記号の型を宣言 */
 %type <Syntax.s> start
+%type <Syntax.p> predicate
 
 /* 演算子の優先順位を指定する (低い方から高い方へ) */
 /* 結合なし  */
