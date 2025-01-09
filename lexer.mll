@@ -13,10 +13,20 @@ let letter = lower | upper
 rule token = parse
 | space+ { token lexbuf }
 | '+'  { PLUS }
+| '-'  { MINUS }
+| '*'  { TIMES }
+| '/'  { DIVIDE }
 | digit+  { NUMBER (int_of_string (Lexing.lexeme lexbuf)) }
 | "<"  { LT }
+| ">"  { GT }
+| ">="  { GE }
+| "<="  { LE }
+| "=="  { EQ }
 | ';'  { SEMICOLON }
 | ":=" { ASSIGN }
+| "begin" { BEGIN }
+| "end" { END }
+| "while" { WHILE }
 | "do"    { DO }
 | "true"  { TRUE }
 | "not"   { NOT }
