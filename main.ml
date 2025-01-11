@@ -52,7 +52,7 @@ let () =
     test_syntax_predicate "i >= 10";
     test_syntax_predicate "i <= 10";
     test_syntax_predicate "i == 10";
-    (* test_stack_ops "i := i + 1;"; *)
+    test_stack_ops "i := i + 1;"; 
     (* test_stack_ops "i := i - 1;"; *)
     (* test_stack_ops "i := i * 1;"; *)
     (* test_stack_ops "i := i / 1;"; *)

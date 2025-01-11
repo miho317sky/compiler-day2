@@ -32,6 +32,12 @@ let rec compile_arith (arith : a) : t list =
   | Num n -> [Push n]
   | Add (lhs, rhs) ->
     (compile_arith lhs) @ (compile_arith rhs) @ [PLUS]
+  | Sub (lhs, rhs) ->
+    (compile_arith lhs) @ (compile_arith rhs) @ [MINUS]
+  | Mul (lhs, rhs) ->
+    (compile_arith lhs) @ (compile_arith rhs) @ [TIMES]
+  | Div (lhs, rhs) ->
+    (compile_arith lhs) @ (compile_arith rhs) @ [DIV]
 
 (* While言語の条件式を仮想スタックマシンの命令へ変換する *)
 let rec compile_predicate (predicate : p) : t list =
@@ -42,6 +48,11 @@ let rec compile_predicate (predicate : p) : t list =
   | And (p1, p2) -> (compile_predicate p1) @ (compile_predicate p2) @ [AND]
   | Or (p1, p2) -> (compile_predicate p1) @ (compile_predicate p2) @ [OR]
   | LT (a1, a2) -> (compile_arith a1) @ (compile_arith a2) @ [LT]
+  | GT (a1, a2) -> (compile_arith a1) @ (compile_arith a2) @ [GT]
+  | GE (a1, a2) -> (compile_arith a1) @ (compile_arith a2) @ [GE]
+  | LE (a1, a2) -> (compile_arith a1) @ (compile_arith a2) @ [LE]
+  | EQ (a1, a2) -> (compile_arith a1) @ (compile_arith a2) @ [EQ]  
+  
 
 let count = ref (-1)
 let gen_label () =
@@ -57,6 +68,7 @@ let rec compile_statement (statement : s) : t list =
   | Assign (id, arith) ->
     (compile_arith arith) @ [LPush (id)]
   | Skip -> []
+
   (* | Block s ->  s を compile_statement でコンパイルした結果を返す *)
   (* | Seq (s1, s2) ->  s1 と s2 をコンパイルした結果を連結する *)
   (* | While (pred, stmt) -> *)
@@ -70,9 +82,24 @@ let rec compile_statement (statement : s) : t list =
   (* stmt を compile_statement でコンパイルした結果 *)
   (* Goto test *)
   (* LabelOut (test, out) *)
+
+  |Block (s) -> (compile_statement s)
+  | Seq (s1, s2) ->  (compile_statement s1) @ (compile_statement s2)
+  | While (pred, stmt) ->
+    let test = gen_label () in
+    let out = gen_label () in 
+    [LabelTest (test, out)]
+    @compile_predicate pred
+    @[GoFalse out]
+    @compile_statement  stmt
+    @[GoTo test]
+    @[LabelOut (test, out)]
+ 
+
+
   | Print (arith) ->
     (compile_arith arith) @ [PRINT]
-  | _ -> failwith "Unsupported statement"
+  (*| _ -> failwith "Unsupported statement"*)
 
 
 let compile_stack statement =
