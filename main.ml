@@ -41,8 +41,7 @@ let test_stack_ops s =
 
 let () =
     test_syntax "while i < 10 do i := i + 1;";
-    (*test_syntax "begin i := 1; j := 2; end";*)
-    test_syntax " while i < 10 do begin a := a * i; i := i + 1; end; ";
+    test_syntax " while i < 10 do begin i := i + 1; j := j + 1 ; end; ";
     
     test_syntax "i := i + 1;";
     test_syntax "i := i - 1;"; 
